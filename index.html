@@ -39,7 +39,7 @@
 				fetch(apiUrl)
 					.then((resp) => resp.json())
 					.then((randomData) => {
-						console.log("Sending", randomData);
+						console.log("Sending", randomData, window.parent);
 						window.parent.postMessage(
 							JSON.stringify(randomData),
 							"https://iframe-postmessage-demo.vercel.app/"
