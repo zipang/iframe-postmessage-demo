@@ -39,14 +39,16 @@
 				fetch(apiUrl)
 					.then((resp) => resp.json())
 					.then((randomData) => {
-                        // Search the good window parent
-                        for (let parent of Array.from(window.frames)) {
-                            console.log("Sending", randomData, parent);
-                            parent.postMessage(
-                                JSON.stringify(randomData),
-                                "https://iframe-postmessage-demo.vercel.app/"
-                            );
+                        if (window === top) {
+                            console(`No parent window`)
+                            return
                         }
+                        console.log("Sending", randomData);
+                        parent.postMessage(
+                            JSON.stringify(randomData),
+                            "https://iframe-postmessage-demo.vercel.app/"
+                        );
+
 						lastMessage.innerHTML = JSON.stringify(randomData, null, "    ");
 					});
 			};
