@@ -41,18 +41,14 @@
 					.then((randomData) => {
                         // Search the good window parent
                         let parent = window.parent
-                        while (parent !== window.top && parent.secretName !== "IFrameContainer") {
+                        do {
+                            console.log("Sending", randomData, parent);
+                            parent.postMessage(
+                                JSON.stringify(randomData),
+                                "https://iframe-postmessage-demo.vercel.app/"
+                            );
                             parent = parent.parent
-                        }
-                        if (parent.secretName !== "IFrameContainer") {
-                            console.log("IFrameContainer parent not found")
-                            return
-                        }
-						console.log("Sending", randomData, parent);
-						parent.postMessage(
-							JSON.stringify(randomData),
-							"https://iframe-postmessage-demo.vercel.app/"
-						);
+                        } while (parent !== window.top)
 						lastMessage.innerHTML = JSON.stringify(randomData, null, "    ");
 					});
 			};
