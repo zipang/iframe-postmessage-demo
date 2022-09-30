@@ -40,15 +40,13 @@
 					.then((resp) => resp.json())
 					.then((randomData) => {
                         // Search the good window parent
-                        let parent = window.parent
-                        do {
+                        for (let parent of Array.from(window.frames)) {
                             console.log("Sending", randomData, parent);
                             parent.postMessage(
                                 JSON.stringify(randomData),
                                 "https://iframe-postmessage-demo.vercel.app/"
                             );
-                            parent = parent.parent
-                        } while (parent !== window.top)
+                        }
 						lastMessage.innerHTML = JSON.stringify(randomData, null, "    ");
 					});
 			};
