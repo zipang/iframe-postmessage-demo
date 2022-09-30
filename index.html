@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>IFrame postMessage Demo</title>
+		<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
+		<style>
+			* {
+				font-size: smaller;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="container">
+			<header>
+				<h1>I FRAME</h1>
+			</header>
+			<button id="cmdSendRandomQuote">
+				Click here to receive some random quote
+			</button>
+
+			<button id="cmdGiveRandomBeer">
+				Click here to have some beer
+			</button>
+		</section>
+		<section class="container">
+			<h2>Last message sent</h2>
+			<pre id="lastMessage"></pre>
+		</section>
+		<script>
+			const $ = document.querySelector.bind(document);
+			const $$ = document.querySelectorAll.bind(document);
+
+			const lastMessage = $("#lastMessage");
+
+			const postMessageFrom = (apiUrl) => (evt) => {
+				fetch(apiUrl)
+					.then((resp) => resp.json())
+					.then((randomData) => {
+						console.log("Sending", randomData);
+						window.parent.postMessage(
+							JSON.stringify(randomData),
+							"https://cdpn.io/zipang"
+						);
+						lastMessage.innerHTML = JSON.stringify(randomData, null, "    ");
+					});
+			};
+
+			$("#cmdSendRandomQuote")
+				.addEventListener("click", postMessageFrom("https://dummyjson.com/quotes/random"));
+
+			$("#cmdGiveRandomBeer")
+				.addEventListener(
+					"click",
+					postMessageFrom("https://random-data-api.com/api/v2/beers")
+				);
+		</script>
+	</body>
+</html>
