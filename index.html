@@ -42,7 +42,7 @@
 						console.log("Sending", randomData);
 						window.parent.postMessage(
 							JSON.stringify(randomData),
-							"https://cdpn.io/zipang"
+							"https://iframe-postmessage-demo.vercel.app/"
 						);
 						lastMessage.innerHTML = JSON.stringify(randomData, null, "    ");
 					});
