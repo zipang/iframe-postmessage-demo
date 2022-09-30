@@ -18,15 +18,15 @@
 				<h1>I FRAME</h1>
 			</header>
 			<button id="cmdSendRandomQuote">
-				Click here to receive some random quote
+				Click here to send a random quote
 			</button>
 
 			<button id="cmdGiveRandomBeer">
-				Click here to have some beer
+				Click here to give a beer
 			</button>
 		</section>
 		<section class="container">
-			<h2>Last message sent</h2>
+			<h2>Last message sent :</h2>
 			<pre id="lastMessage"></pre>
 		</section>
 		<script>
@@ -45,7 +45,7 @@
 							console.log("Sending", randomData);
 							window.parent.postMessage(
 								JSON.stringify(randomData),
-								"*"
+								"*" // MANDATORY to send messages to different origins than the iframe's
 							);
 						}
 
@@ -54,7 +54,10 @@
 			};
 
 			$("#cmdSendRandomQuote")
-				.addEventListener("click", postMessageFrom("https://dummyjson.com/quotes/random"));
+				.addEventListener(
+					"click", 
+					postMessageFrom("https://dummyjson.com/quotes/random")
+				);
 
 			$("#cmdGiveRandomBeer")
 				.addEventListener(
