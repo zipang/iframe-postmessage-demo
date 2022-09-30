@@ -40,14 +40,14 @@
 					.then((resp) => resp.json())
 					.then((randomData) => {
                         if (window === top) {
-                            console(`No parent window`)
-                            return
+                            console.log(`No parent window`);
+                        } else {
+                            console.log("Sending", randomData);
+                            parent.postMessage(
+                                JSON.stringify(randomData),
+                                "https://iframe-postmessage-demo.vercel.app/"
+                            );
                         }
-                        console.log("Sending", randomData);
-                        parent.postMessage(
-                            JSON.stringify(randomData),
-                            "https://iframe-postmessage-demo.vercel.app/"
-                        );
 
 						lastMessage.innerHTML = JSON.stringify(randomData, null, "    ");
 					});
